@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>올팍 한산시간</title>
+<meta name="description" content="공연과 마라톤을 피해 가는 올림픽공원 일상 이용 시간표">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --bg:#F4F5F7; --card:#FFFFFF; --ink:#16181D; --ink2:#4B515C; --ink3:#8A909A; --line:#E4E6EA;
+  --brand:#1F6FB2; --brand-soft:#E8F1FA;
+  --ok:#1E7B4C; --ok-soft:#E3F3EA; --mid:#A86400; --mid-soft:#FDF1DC; --bad:#B3261E; --bad-soft:#FBE7E5; --na:#6B7280; --na-soft:#EEF0F3;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Pretendard,"Malgun Gothic",system-ui,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+header{background:var(--card);border-bottom:1px solid var(--line)}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+.top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding:18px 0 14px}
+.top h1{margin:0;font-size:22px;letter-spacing:-.02em}
+.top p{margin:0;color:var(--ink2);font-size:14px}
+nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px}
+nav a{flex:none;padding:7px 12px;border-radius:999px;color:var(--ink2);text-decoration:none;font-size:14px;font-weight:600}
+nav a:hover{background:var(--bg)}
+main{padding:18px 0 40px}
+section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+section h2{margin:0 0 4px;font-size:18px;letter-spacing:-.01em}
+.sub{margin:0 0 14px;color:var(--ink3);font-size:13px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:720px){.grid2{grid-template-columns:1fr}}
+.big{font-size:40px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.unit{font-size:16px;font-weight:600;color:var(--ink2);margin-left:4px}
+.muted{color:var(--ink3);font-size:13px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-weight:700;font-size:14px}
+.chip::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.g-ok{color:var(--ok);background:var(--ok-soft)} .g-mid{color:var(--mid);background:var(--mid-soft)} .g-bad{color:var(--bad);background:var(--bad-soft)} .g-na{color:var(--na);background:var(--na-soft)}
+.say{margin-top:12px;padding:12px 14px;border-radius:10px;background:var(--bg);font-size:14px;color:var(--ink2)}
+.say b{color:var(--ink)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:12px}
+label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink2);font-weight:600}
+input,select{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);min-width:120px}
+.strip{display:grid;grid-template-columns:repeat(16,minmax(0,1fr));gap:3px;margin-top:10px}
+.strip div{border-radius:6px;padding:6px 0 5px;text-align:center;font-size:12px;font-weight:700;cursor:pointer;border:2px solid transparent}
+.strip div.sel{border-color:var(--ink)}
+.strip small{display:block;font-weight:500;font-size:10px;opacity:.85}
+@media (max-width:560px){.strip{grid-template-columns:repeat(8,minmax(0,1fr))}}
+table{table-layout:fixed} td{word-break:keep-all;overflow-wrap:anywhere}
+.evs{list-style:none;margin:8px 0 0;padding:0}
+.evs li{display:flex;gap:8px;align-items:baseline;padding:6px 0;border-top:1px solid var(--line);font-size:14px}
+.evs li:first-child{border-top:0}
+.evs .t{flex:none;width:48px;font-weight:700;font-variant-numeric:tabular-nums}
+.evs .v{flex:none;font-size:12px;color:var(--ink3);width:92px}
+.evs a{color:var(--ink);text-decoration:none}
+.evs a:hover{text-decoration:underline}
+.tag{font-size:11px;font-weight:700;padding:1px 6px;border-radius:4px;background:var(--bad-soft);color:var(--bad);flex:none}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.cal .d{min-width:0}
+@media (max-width:560px){.cal{gap:2px}.cal .d{min-height:50px;padding:3px}.cal .e{font-size:10px}.evs .v{width:72px}section{padding:16px}}
+.cal .h{text-align:center;font-size:12px;color:var(--ink3);font-weight:700;padding:4px 0}
+.cal .d{min-height:62px;border:1px solid var(--line);border-radius:8px;padding:4px 6px;font-size:12px;cursor:pointer;background:#fff;position:relative}
+.cal .d:hover{border-color:var(--brand)}
+.cal .d.off{visibility:hidden}
+.cal .d.today{outline:2px solid var(--brand);outline-offset:-1px}
+.cal .n{font-weight:700;font-size:13px}
+.cal .d.we .n{color:var(--bad)}
+.cal .e{display:block;margin-top:2px;font-size:11px;line-height:1.3;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cal .e.bigv{color:var(--bad);font-weight:700}
+.cal .e.ctl{color:#fff;background:var(--bad);border-radius:4px;padding:0 4px}
+.calhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.calhead button{font:inherit;border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 12px;cursor:pointer}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink2);margin-top:10px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:8px 6px;border-top:1px solid var(--line)}
+th{font-size:12px;color:var(--ink3);font-weight:700;border-top:0}
+td.num{font-variant-numeric:tabular-nums}
+svg text{font-family:Pretendard,"Malgun Gothic",sans-serif}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:#fff;font-size:12px;padding:6px 8px;border-radius:6px;opacity:0;transition:opacity .1s;z-index:9}
+footer{color:var(--ink3);font-size:12px;padding:0 0 40px}
+footer a{color:var(--ink2)}
+ul.src{margin:6px 0 0;padding-left:18px;font-size:13px;color:var(--ink2)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="top"><h1>올팍 한산시간</h1><p>공연과 마라톤을 피해 가는 올림픽공원 일상 이용 시간표</p></div>
+    <nav>
+      <a href="#now">지금</a><a href="#plan">방문 시간 판정</a><a href="#cal">공연과 통제 달력</a><a href="#course">내 강좌 판정</a><a href="#log">실측 주차 기록</a><a href="#basis">판정 근거</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+
+<section id="now">
+  <h2>지금 올림픽공원</h2>
+  <p class="sub">실시간 주차현황(공공데이터포털 15168686)을 이 화면에서 바로 불러옴. 동2문, 남2문, 북2문 주차대수 합계</p>
+  <div class="grid2">
+    <div>
+      <div class="muted" id="nowTime">불러오는 중</div>
+      <div><span class="big" id="nowVal">-</span><span class="unit">대</span></div>
+      <div class="muted" id="nowBase"></div>
+      <div style="margin-top:10px" id="nowGrade"></div>
+    </div>
+    <div>
+      <div class="muted">오늘 공원 일정</div>
+      <ul class="evs" id="nowEvs"></ul>
+    </div>
+  </div>
+  <div class="say" id="nowSay"></div>
+</section>
+
+<section id="plan">
+  <h2>방문 시간 판정</h2>
+  <p class="sub">날짜와 시각을 고르면 공연일정, 도로 통제, 과거 혼잡도 기록으로 3단계 판정. 막대를 눌러 시각을 바꿀 수 있음</p>
+  <div class="row">
+    <label>날짜<input type="date" id="pDate"></label>
+    <label>시각<select id="pHour"></select></label>
+  </div>
+  <div id="pGrade"></div>
+  <div class="strip" id="pStrip"></div>
+  <div class="say" id="pSay"></div>
+  <ul class="evs" id="pEvs"></ul>
+</section>
+
+<section id="cal">
+  <h2>공연과 통제 달력</h2>
+  <p class="sub">올림픽공원 공연일정(기관 누리집, 공연정보 3037877)과 공원 주변 도로 통제 일정. 날짜를 누르면 방문 시간 판정으로 이동</p>
+  <div class="calhead"><button id="cPrev" aria-label="이전 달">이전</button><b id="cTitle"></b><button id="cNext" aria-label="다음 달">다음</button></div>
+  <div class="cal" id="cGrid"></div>
+  <div class="legend"><span><b style="color:var(--bad)">빨간 글씨</b> 대형 공연장(KSPO DOME, 핸드볼경기장, 88잔디마당)</span><span><span class="sw" style="background:var(--bad)"></span>도로 통제(마라톤 등)</span></div>
+</section>
+
+<section id="course">
+  <h2>내 강좌 판정</h2>
+  <p class="sub">수영, 스포츠센터 강좌나 테니스 예약 시간을 넣으면 앞으로 6주 동안 수업 1시간 전과 시작 시각을 함께 판정</p>
+  <div class="row">
+    <label>요일<select id="kWd"><option value="1">월</option><option value="2">화</option><option value="3">수</option><option value="4">목</option><option value="5">금</option><option value="6" selected>토</option><option value="0">일</option></select></label>
+    <label>시작 시각<select id="kHour"></select></label>
+  </div>
+  <table><thead><tr><th>날짜</th><th>판정</th><th>그날 공원 일정</th></tr></thead><tbody id="kBody"></tbody></table>
+</section>
+
+<section id="log">
+  <h2>실측 주차 기록</h2>
+  <p class="sub">2026년 11월 24일부터 실시간 주차현황을 10분마다 기록. 날짜별 시각에 따른 주차대수</p>
+  <div id="lChart"></div>
+  <div class="legend" id="lLegend"></div>
+</section>
+
+<section id="basis">
+  <h2>판정 근거</h2>
+  <p class="sub" id="bSrc"></p>
+  <div id="bChart"></div>
+  <table style="margin-top:12px">
+    <thead><tr><th>조건</th><th>기록 건수</th><th>원활</th><th>혼잡 이상</th><th>판정</th></tr></thead>
+    <tbody id="bBody"></tbody>
+  </table>
+  <div class="say">
+    <b>판정 규칙</b> 생성형 AI 없이 아래 규칙만 사용<br>
+    1) 공원 주변 도로 통제(마라톤 등)가 있는 날은 '혼잡 주의'<br>
+    2) 대형 공연일은 공연 시작 6시간 전부터 시작 시각까지 '혼잡 주의'(관객 입차), 시작 이후 '한산'(입장 이후), 그 이전은 '보통'<br>
+    3) 대형 공연이 없는 평일은 09~11시 '한산', 그 밖의 시간 '보통'. 대형 공연이 없는 주말은 기록이 적어 '보통'<br>
+    4) 오늘 현재 시각은 실시간 주차대수가 최근 공연 없는 평일 같은 시각보다 30% 이상 많으면 '혼잡 주의', 10~30%면 최소 '보통'(초기값, 운영 기록으로 보정)
+  </div>
+  <ul class="src">
+    <li>주차장 혼잡도 정보: 공공데이터포털 15164156 (한국체육산업개발)</li>
+    <li>실시간 주차현황: 공공데이터포털 15168686 (한국체육산업개발, 기관 공개 키)</li>
+    <li>올림픽공원 공연일정: ksponco.or.kr 올림픽공원 공연일정 (공연정보 3037877)</li>
+    <li>도로 통제: 경향신문 2026.11.02 보도(JTBC 서울마라톤). 서울시 TOPIS 공지 연동 예정</li>
+  </ul>
+</section>
+
+<footer class="wrap" id="foot"></footer>
+</main>
+<div class="tip" id="tip"></div>
+<script src="data.js"></script>
+<script>
+(function(){
+const D = window.OLPARK;
+const PARK_API = "https://www.ksponco.or.kr/online/main/parkingorsApi.do?apiKey=PARKING21803504";
+const WD = "일월화수목금토";
+const G = {ok:{t:"한산",c:"g-ok",col:"#1E7B4C",soft:"#E3F3EA"}, mid:{t:"보통",c:"g-mid",col:"#A86400",soft:"#FDF1DC"}, bad:{t:"혼잡 주의",c:"g-bad",col:"#B3261E",soft:"#FBE7E5"}, na:{t:"기록 부족",c:"g-na",col:"#6B7280",soft:"#EEF0F3"}};
+const RANK = {ok:0, na:1, mid:1, bad:2};
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2,"0");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+// KST clock
+function kstNow(){ const d = new Date(Date.now() + 9*3600e3); return {iso:`${d.getUTCFullYear()}-${pad(d.getUTCMonth()+1)}-${pad(d.getUTCDate())}`, h:d.getUTCHours(), m:d.getUTCMinutes()}; }
+function wdOf(iso){ const [y,m,d] = iso.split("-").map(Number); return new Date(Date.UTC(y,m-1,d)).getUTCDay(); }
+function addDays(iso, k){ const [y,m,d] = iso.split("-").map(Number); const t = new Date(Date.UTC(y,m-1,d+k)); return `${t.getUTCFullYear()}-${pad(t.getUTCMonth()+1)}-${pad(t.getUTCDate())}`; }
+function fmtDate(iso){ const [y,m,d] = iso.split("-").map(Number); return `${m}월 ${d}일(${WD[wdOf(iso)]})`; }
+const chip = g => `<span class="chip ${G[g].c}">${G[g].t}</span>`;
+const pct = (a,b) => b ? Math.round(a/b*1000)/10 : 0;
+
+const events = d => D.events[d] || [];
+const bigs = d => events(d).filter(e => e.big);
+const controls = d => D.controls.filter(c => c.date === d);
+function bigStart(d){ const s = bigs(d).map(e => e.start).filter(Boolean).sort(); return s.length ? parseInt(s[0]) : null; }
+
+// rule-based grade for a date and hour
+function grade(d, h){
+  const wk = [0,6].includes(wdOf(d));
+  const ctl = controls(d);
+  if (ctl.length) return {g:"bad", why:[`공원 주변 도로 통제: ${ctl[0].title}`], tip:"대중교통 이용, 통제 시간 확인"};
+  const b = bigs(d);
+  if (b.length){
+    const s = bigStart(d) ?? 18, known = bigStart(d) !== null;
+    const name = `${b[0].venue} '${b[0].title}'${b[0].start ? " " + b[0].start + " 시작" : ""}`;
+    const st = wk ? D.hours.weekend_big[h] : null;
+    const rec = st && st.n >= 10 ? ` 과거 대형 공연 주말 ${h}시 기록 ${st.n}건 중 만차 ${pct(st["만차"], st.n)}%, 원활 ${pct(st["원활"], st.n)}%` : "";
+    if (h >= s - 6 && h < s) return {g:"bad", why:[`${name}`, `관객 입차 시간대(시작 6시간 전부터)${known ? "" : ", 시작 시각 미확인으로 18시 가정"}`, rec].filter(Boolean), tip:"지하철 5호선, 9호선 올림픽공원역 이용 권장"};
+    if (h >= s) return {g:"ok", why:[`${name}`, `공연 입장 이후 시간대`, wk ? `대형 공연 주말 18~21시 기록 중 원활 ${D.hours.bands.weekend_big["18-21"].ok_pct}%` : ""].filter(Boolean), tip:"공연 종료 시각 전후 퇴장 차량은 주의"};
+    return {g:"mid", why:[`${name}`, `관객 입차 전 시간대`, wk ? `대형 공연 주말 09~11시 기록 중 원활 ${D.hours.bands.weekend_big["09-11"].ok_pct}%` : ""].filter(Boolean), tip:"이른 시간 방문이 유리"};
+  }
+  if (!wk){
+    if (h >= 9 && h <= 11) return {g:"ok", why:["대형 공연 없는 평일", `09~11시 기록 중 원활 ${D.hours.bands.weekday_none["09-11"].ok_pct}%`], tip:""};
+    return {g:"mid", why:["대형 공연 없는 평일", h >= 12 && h <= 17 ? `12~17시 기록 중 원활 ${D.hours.bands.weekday_none["12-17"].ok_pct}%` : "이 시간대 혼잡도 기록 없음"], tip:""};
+  }
+  return {g:"mid", why:["대형 공연 없는 주말", "이 조건의 혼잡도 기록이 적어 보통으로 표시"], tip:""};
+}
+
+// live baseline: mean of recent weekdays without big events, same time ±15 min
+function baseline(h, m){
+  const t = h*60 + m, vals = [];
+  for (const [ts, v] of D.parking){
+    const d = ts.slice(0,10), wd = wdOf(d);
+    if (wd === 0 || wd === 6 || bigs(d).length || controls(d).length) continue;
+    const tt = +ts.slice(11,13)*60 + +ts.slice(14,16);
+    if (Math.abs(tt - t) <= 15) vals.push(v);
+  }
+  return vals.length ? {avg: Math.round(vals.reduce((a,b)=>a+b,0)/vals.length), n: vals.length} : null;
+}
+
+function evList(d, el){
+  const rows = events(d).map(e => `<li><span class="t">${e.start || "-"}</span><span class="v">${esc(e.venue)}</span><a href="${e.url}" target="_blank" rel="noopener">${esc(e.title)}</a>${e.big ? '<span class="tag">대형</span>' : ""}</li>`)
+    .concat(controls(d).map(c => `<li><span class="t">통제</span><span class="v">도로</span><span>${esc(c.title)} <span class="muted">${esc(c.detail)} (${esc(c.source)})</span></span><span class="tag">통제</span></li>`));
+  el.innerHTML = rows.length ? rows.join("") : `<li><span class="muted">공연, 통제 일정 없음</span></li>`;
+}
+
+function sentence(d, h, r, extra){
+  return `<b>${fmtDate(d)} ${h}시 '${G[r.g].t}'</b><br>근거: ${r.why.map(esc).join(", ")}${extra ? ", " + extra : ""}${r.tip ? `<br>권장: ${esc(r.tip)}` : ""}`;
+}
+
+// 1. now
+async function renderNow(){
+  const k = kstNow();
+  evList(k.iso, $("nowEvs"));
+  const r = grade(k.iso, k.h);
+  let live = null;
+  try {
+    const res = await fetch(PARK_API, {cache:"no-store"});
+    live = (await res.json())[0].parking_sum;
+  } catch(e){ /* fall back to last logged value */ }
+  const last = D.parking[D.parking.length-1];
+  const val = live ?? (last ? last[1] : null);
+  $("nowTime").textContent = live != null ? `${fmtDate(k.iso)} ${pad(k.h)}:${pad(k.m)} 실시간` : (last ? `실시간 조회 실패, 마지막 기록 ${last[0].replace("T"," ")}` : "조회 실패");
+  $("nowVal").textContent = val != null ? val.toLocaleString("ko-KR") : "-";
+  const b = baseline(k.h, k.m);
+  let g = r.g, extra = "";
+  if (b && val != null){
+    const inc = Math.round((val - b.avg) / b.avg * 1000) / 10;
+    $("nowBase").textContent = `최근 공연 없는 평일 같은 시각 평균 ${b.avg.toLocaleString("ko-KR")}대(${b.n}회 기록) 대비 ${inc >= 0 ? "+" : ""}${inc}%`;
+    if (inc >= 30) g = "bad"; else if (inc >= 10 && RANK[g] < 1) g = "mid";
+    extra = `실시간 주차대수 기준선 대비 ${inc >= 0 ? "+" : ""}${inc}%`;
+  } else {
+    $("nowBase").textContent = "이 시각의 평일 기준선 기록이 아직 없음";
+  }
+  $("nowGrade").innerHTML = chip(g);
+  $("nowSay").innerHTML = sentence(k.iso, k.h, {...r, g}, extra);
+}
+
+// 2. planner
+function renderPlan(){
+  const d = $("pDate").value, h = +$("pHour").value;
+  const r = grade(d, h);
+  $("pGrade").innerHTML = chip(r.g);
+  $("pSay").innerHTML = sentence(d, h, r);
+  $("pStrip").innerHTML = Array.from({length:16}, (_, i) => i + 6).map(x => { const g = grade(d, x).g; return `<div class="${x === h ? "sel" : ""}" data-h="${x}" style="background:${G[g].soft};color:${G[g].col}" title="${x}시 ${G[g].t}">${x}<small>${G[g].t}</small></div>`; }).join("");
+  evList(d, $("pEvs"));
+}
+
+// 3. calendar
+let calYM;
+function renderCal(){
+  const [y, m] = calYM;
+  $("cTitle").textContent = `${y}년 ${m}월`;
+  const first = `${y}-${pad(m)}-01`, start = wdOf(first), days = new Date(Date.UTC(y, m, 0)).getUTCDate();
+  const today = kstNow().iso;
+  let h = [..."일월화수목금토"].map(c => `<div class="h">${c}</div>`).join("");
+  for (let i = 0; i < start; i++) h += `<div class="d off"></div>`;
+  for (let dd = 1; dd <= days; dd++){
+    const d = `${y}-${pad(m)}-${pad(dd)}`, wd = wdOf(d);
+    const es = events(d).slice(0, 3).map(e => `<span class="e ${e.big ? "bigv" : ""}" title="${esc(e.venue + " " + e.title)}">${e.start ? e.start + " " : ""}${esc(e.venue)}</span>`).join("");
+    const cs = controls(d).map(c => `<span class="e ctl" title="${esc(c.title)}">도로 통제</span>`).join("");
+    h += `<div class="d ${wd === 0 || wd === 6 ? "we" : ""} ${d === today ? "today" : ""}" data-d="${d}"><span class="n">${dd}</span>${cs}${es}</div>`;
+  }
+  $("cGrid").innerHTML = h;
+}
+
+// 4. course
+function renderCourse(){
+  const wd = +$("kWd").value, h = +$("kHour").value, today = kstNow().iso;
+  let d = today; while (wdOf(d) !== wd) d = addDays(d, 1);
+  const rows = [];
+  for (let i = 0; i < 6; i++, d = addDays(d, 7)){
+    const a = grade(d, h - 1), b = grade(d, h);
+    const g = RANK[a.g] >= RANK[b.g] ? a : b;
+    const ev = bigs(d).map(e => `${e.start || ""} ${e.venue}`).concat(controls(d).map(c => "도로 통제")).join(", ") || "대형 공연 없음";
+    rows.push(`<tr><td>${fmtDate(d)}</td><td>${chip(g.g)}${g.g === "bad" ? `<div class="muted" style="margin-top:4px">${esc(g.tip)}</div>` : ""}</td><td>${esc(ev)}</td></tr>`);
+  }
+  $("kBody").innerHTML = rows.join("");
+}
+
+// 5. measured parking line chart
+function renderLog(){
+  const by = {};
+  for (const [ts, v] of D.parking){ (by[ts.slice(0,10)] ||= []).push([+ts.slice(11,13) + +ts.slice(14,16)/60, v]); }
+  const days = Object.keys(by).sort();
+  const all = D.parking.map(r => r[1]);
+  if (!all.length){ $("lChart").innerHTML = '<p class="muted">기록 없음</p>'; return; }
+  const W = 900, H = 320, L = 56, R = 16, T = 14, B = 34;
+  const lo = Math.floor(Math.min(...all) / 200) * 200, hi = Math.ceil(Math.max(...all) / 200) * 200;
+  const X = t => L + (t - 6) / 18 * (W - L - R), Y = v => T + (1 - (v - lo) / (hi - lo)) * (H - T - B);
+  const PAL = ["#2A6FDB", "#7A5AF8", "#0E9384", "#C4320A", "#B54708", "#344054", "#DD2590", "#15803D"];
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="날짜별 시각에 따른 주차대수">`;
+  for (let v = lo; v <= hi; v += 200) s += `<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="#E4E6EA"/><text x="${L-8}" y="${Y(v)+4}" font-size="11" fill="#8A909A" text-anchor="end">${v.toLocaleString("ko-KR")}</text>`;
+  for (let t = 6; t <= 24; t += 3) s += `<text x="${X(t)}" y="${H-12}" font-size="11" fill="#8A909A" text-anchor="middle">${t}시</text>`;
+  const leg = [];
+  days.forEach((d, i) => {
+    const col = PAL[i % PAL.length], pts = by[d].filter(p => p[0] >= 6);
+    if (!pts.length) return;
+    const big = bigs(d).length > 0;
+    s += `<polyline fill="none" stroke="${col}" stroke-width="${big ? 2.5 : 2}" ${big ? "" : 'stroke-dasharray="5 4"'} points="${pts.map(p => X(p[0]).toFixed(1) + "," + Y(p[1]).toFixed(1)).join(" ")}"/>`;
+    pts.forEach(p => { s += `<circle cx="${X(p[0]).toFixed(1)}" cy="${Y(p[1]).toFixed(1)}" r="7" fill="transparent" data-tip="${fmtDate(d)} ${Math.floor(p[0])}:${pad(Math.round(p[0] % 1 * 60))} ${p[1].toLocaleString("ko-KR")}대"/>`; });
+    leg.push(`<span><span class="sw" style="background:${col}"></span>${fmtDate(d)}${big ? " 대형 공연일" : " 공연 없는 날(점선)"}</span>`);
+  });
+  s += `</svg>`;
+  $("lChart").innerHTML = s; $("lLegend").innerHTML = leg.join("");
+}
+
+// 6. basis chart and table
+function renderBasis(){
+  $("bSrc").textContent = `${D.hours.source}. ${D.hours.note}`;
+  const H = D.hours.weekend_big, hs = Object.keys(H).map(Number).filter(h => H[h].n > 0).sort((a,b)=>a-b);
+  const W = 900, HH = 260, L = 44, R = 10, T = 10, B = 40, bw = (W - L - R) / hs.length;
+  const C = {"원활":"#F1CFC4", "혼잡":"#D46A50", "만차":"#7F2416"};
+  let s = `<svg viewBox="0 0 ${W} ${HH}" width="100%" role="img" aria-label="대형 공연 주말 시간대별 혼잡도 기록 구성">`;
+  [0, 50, 100].forEach(p => { const y = T + (1 - p/100) * (HH - T - B); s += `<line x1="${L}" x2="${W-R}" y1="${y}" y2="${y}" stroke="#E4E6EA"/><text x="${L-6}" y="${y+4}" font-size="11" fill="#8A909A" text-anchor="end">${p}%</text>`; });
+  hs.forEach((h, i) => {
+    const c = H[h], x = L + i * bw + bw * .15, w = bw * .7; let y = HH - B;
+    ["원활","혼잡","만차"].forEach(k => { const hh = (HH - T - B) * c[k] / c.n; if (hh <= 0) return; y -= hh; s += `<rect x="${x}" y="${y}" width="${w}" height="${Math.max(hh - 2, .5)}" fill="${C[k]}" opacity="${c.n >= 10 ? 1 : .45}" data-tip="${h}시 ${k} ${c[k]}건 / ${c.n}건 (${pct(c[k], c.n)}%)"/>`; });
+    s += `<text x="${x + w/2}" y="${HH - 22}" font-size="11" fill="#16181D" text-anchor="middle">${h}시</text><text x="${x + w/2}" y="${HH - 8}" font-size="10" fill="#8A909A" text-anchor="middle">${c.n}건</text>`;
+  });
+  s += `</svg><div class="legend">${["원활","혼잡","만차"].map(k => `<span><span class="sw" style="background:${C[k]}"></span>${k}</span>`).join("")}<span>대형 공연이 있는 토, 일 기록. 10건 미만 시간대는 흐리게</span></div>`;
+  $("bChart").innerHTML = s;
+  const b = D.hours.bands, rows = [
+    ["대형 공연 주말 09~11시", b.weekend_big["09-11"], "mid"], ["대형 공연 주말 12~17시", b.weekend_big["12-17"], "bad"], ["대형 공연 주말 18~21시", b.weekend_big["18-21"], "ok"],
+    ["대형 공연 없는 평일 09~11시", b.weekday_none["09-11"], "ok"], ["대형 공연 없는 평일 12~17시", b.weekday_none["12-17"], "mid"]];
+  $("bBody").innerHTML = rows.map(([n, v, g]) => `<tr><td>${n}</td><td class="num">${v.n}건(${v.days}일)</td><td class="num">${v.ok_pct}%</td><td class="num">${v.busy_or_full_pct}%</td><td>${chip(g)}</td></tr>`).join("");
+}
+
+// tooltips for svg marks
+document.addEventListener("mousemove", e => { const t = e.target.closest("[data-tip]"), tip = $("tip"); if (t){ tip.textContent = t.dataset.tip; tip.style.left = e.clientX + 12 + "px"; tip.style.top = e.clientY + 12 + "px"; tip.style.opacity = 1; } else tip.style.opacity = 0; });
+
+// init
+const k = kstNow();
+$("pHour").innerHTML = $("kHour").innerHTML = Array.from({length:16}, (_, i) => i + 6).map(h => `<option value="${h}">${h}시</option>`).join("");
+$("pDate").value = k.iso; $("pHour").value = Math.min(Math.max(k.h, 6), 21); $("kHour").value = 17;
+$("pDate").onchange = $("pHour").onchange = renderPlan;
+$("pStrip").onclick = e => { const t = e.target.closest("[data-h]"); if (t){ $("pHour").value = t.dataset.h; renderPlan(); } };
+$("kWd").onchange = $("kHour").onchange = renderCourse;
+calYM = [+k.iso.slice(0,4), +k.iso.slice(5,7)];
+$("cPrev").onclick = () => { calYM = calYM[1] === 1 ? [calYM[0]-1, 12] : [calYM[0], calYM[1]-1]; renderCal(); };
+$("cNext").onclick = () => { calYM = calYM[1] === 12 ? [calYM[0]+1, 1] : [calYM[0], calYM[1]+1]; renderCal(); };
+$("cGrid").onclick = e => { const t = e.target.closest("[data-d]"); if (t){ $("pDate").value = t.dataset.d; renderPlan(); location.hash = "#plan"; } };
+const q = new URLSearchParams(location.search);
+if (q.get("d")) $("pDate").value = q.get("d");
+if (q.get("h")) $("pHour").value = q.get("h");
+renderNow(); renderPlan(); renderCal(); renderCourse(); renderLog(); renderBasis();
+$("foot").innerHTML = `데이터 갱신 ${D.built} (KST). 공공데이터 활용 사례 공모전 출품 데모. 판정은 공개 데이터 기록 비율과 규칙에 따른 참고 정보이며 실제 상황과 다를 수 있음`;
+})();
+</script>
+</body>
+</html>
