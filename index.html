@@ -278,12 +278,12 @@ function grade(d, h){
     const st = wk ? D.hours.weekend_big[h] : null;
     const rec = st && st.n >= 10 ? `과거 대형 공연 주말 ${h}시 기록 ${st.n}건 중 만차 ${pct(st["만차"], st.n)}%` : "";
     if (h >= s - 6 && h < s) return {g:"bad", why:[name, `관객이 차를 대는 시간대(시작 6시간 전부터)${known ? "" : ", 시작 시각을 몰라 18시로 가정"}`, rec].filter(Boolean), tip:"지하철 5호선, 9호선 올림픽공원역을 이용하세요"};
-    if (h >= s) return {g:"ok", why:[name, "관객 입장이 끝난 시간대", wk ? `대형 공연 주말 18~21시 기록 중 원활 ${D.hours.bands.weekend_big["18-21"].ok_pct}%` : ""].filter(Boolean), tip:"공연이 끝나는 시각 전후에는 나가는 차가 몰려요"};
-    return {g:"mid", why:[name, "관객이 오기 전 시간대", wk ? `대형 공연 주말 09~11시 기록 중 원활 ${D.hours.bands.weekend_big["09-11"].ok_pct}%` : ""].filter(Boolean), tip:"일찍 다녀오는 게 좋아요"};
+    if (h >= s) return {g:"ok", why:[name, "관객 입장이 끝난 시간대", wk ? `대형 공연 주말 18~21시 원활 기록 비율 ${D.hours.bands.weekend_big["18-21"].ok_pct}%` : ""].filter(Boolean), tip:"공연이 끝나는 시각 전후에는 나가는 차가 몰려요"};
+    return {g:"mid", why:[name, "관객이 오기 전 시간대", wk ? `대형 공연 주말 09~11시 원활 기록 비율 ${D.hours.bands.weekend_big["09-11"].ok_pct}%` : ""].filter(Boolean), tip:"일찍 다녀오는 게 좋아요"};
   }
   if (!wk){
-    if (h >= 9 && h <= 11) return {g:"ok", why:["대형 공연 없는 평일", `09~11시 기록 중 원활 ${D.hours.bands.weekday_none["09-11"].ok_pct}%`], tip:""};
-    return {g:"mid", why:["대형 공연 없는 평일", h >= 12 && h <= 17 ? `12~17시 기록 중 원활 ${D.hours.bands.weekday_none["12-17"].ok_pct}%` : "이 시간대 혼잡도 기록 없음"], tip:""};
+    if (h >= 9 && h <= 11) return {g:"ok", why:["대형 공연 없는 평일", `09~11시 원활 기록 비율 ${D.hours.bands.weekday_none["09-11"].ok_pct}%`], tip:""};
+    return {g:"mid", why:["대형 공연 없는 평일", h >= 12 && h <= 17 ? `12~17시 원활 기록 비율 ${D.hours.bands.weekday_none["12-17"].ok_pct}%` : "이 시간대 혼잡도 기록 없음"], tip:""};
   }
   return {g:"mid", why:["대형 공연 없는 주말", "이 조건의 혼잡도 기록이 적어 보통으로 표시"], tip:""};
 }
