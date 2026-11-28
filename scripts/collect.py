@@ -9,7 +9,7 @@ now = T.datetime.now(T.timezone.utc) + T.timedelta(hours=9)
 
 
 def get(url, body=None):
-    req = urllib.request.Request(url, data=body, headers={"User-Agent": "olpark-hansan/1.0", **({"Content-Type": "application/json;charset=UTF-8"} if body else {})})
+    req = urllib.request.Request(url, data=body, headers={"User-Agent": "bumbim-juuibo/1.0", **({"Content-Type": "application/json;charset=UTF-8"} if body else {})})
     with urllib.request.urlopen(req, timeout=20) as r:
         return r.read().decode("utf-8")
 

@@ -12,12 +12,12 @@
 
 ## GitHub Pages 배포 (무료)
 
-1. GitHub에서 새 공개 저장소를 만든다(예: `olpark-hansan`).
+1. GitHub에서 새 공개 저장소를 만든다(예: `bumbim-juuibo`).
 2. 이 폴더 안의 파일을 모두 올린다(`.github` 폴더 포함).
 3. 저장소 Settings → Pages → Build and deployment → Source를 `Deploy from a branch`, Branch를 `main` / `(root)`로 저장.
 4. Settings → Actions → General → Workflow permissions를 `Read and write permissions`로 저장.
 5. Actions 탭에서 `collect` 워크플로를 한 번 `Run workflow`로 실행해 기록이 쌓이는지 확인.
-6. 1~2분 뒤 `https://<계정>.github.io/olpark-hansan/` 주소로 접속.
+6. 1~2분 뒤 `https://<계정>.github.io/bumbim-juuibo/` 주소로 접속.
 
 `collect` 워크플로는 10분마다 주차대수 1건을 `data/parking_log.csv`에 더하고, 한 시간에 한 번 공연일정 3개월치를 갱신한 뒤 `data.js`를 다시 만든다. GitHub의 예약 실행은 몇 분 늦게 돌 수 있다.
 
